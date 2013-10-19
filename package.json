@@ -1,0 +1,57 @@
+{
+  "name": "grunt-feature-toggle",
+  "description": "Generate feature toggle configuration files",
+  "version": "0.1.0",
+  "homepage": "https://github.com/indieisaconcept/grunt-feature-toggle",
+  "author": {
+    "name": "Jonathan Barnett",
+    "email": "me@indieisaconcept.com",
+    "url": "http://twitter.com/indieisaconcept"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/indieisaconcept/grunt-feature-toggle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/indieisaconcept/grunt-feature-toggle/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/indieisaconcept/grunt-feature-toggle/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "matchdep": "~0.3.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-nodeunit": "~0.2.1"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "dependencies": {},
+  "keywords": [
+    "gruntplugin",
+    "scss",
+    "sass",
+    "css",
+    "less",
+    "amd",
+    "commonjs",
+    "requirejs",
+    "feature",
+    "toggle",
+    "switch",
+    "branch",
+    "feature-toggle"
+  ]
+}
