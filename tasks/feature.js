@@ -63,7 +63,7 @@ module.exports = function(grunt) {
             // Merge and create config
             // -----------------------
 
-            config = features.generate(config, template);
+            config = features.generate(config, template, options);
             grunt.file.write(file.dest, config);
             grunt.log.ok('Feature config "' + file.dest + '" successfully created.');
 

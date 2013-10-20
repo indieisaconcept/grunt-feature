@@ -96,6 +96,19 @@ $feature-4-c-d: false !default
 
 ```
 
+### Namespaces
+
+A base namespace can be defined for a merged config is flattened. This can be specified by passing global or target specific options.
+
+```js
+options: {
+	namespace: 'ft',
+	delimiter: '_'
+}
+```
+
+The configuration above would generate named features with `ft` as a suffix using `_` as a delimiter.
+
 ### Templates
 
 Handlebar templates can be used to control what the output should look like for a generated configuration file.
@@ -168,11 +181,11 @@ The following additional helpers are made available to templates.
   </tr><tr>
     <td>string</td>
     <td>Performs a toString() on value</td>
-	<th>{{string this.value}}</th>    
+	<th>{{string this.value}}</th>
   </tr><tr>
     <td>json</td>
     <td>Convert result to JSON via JSON.stringify()</td>
-	<th>{{json this.value}}</th>    
+	<th>{{json this.value}}</th>
   </tr>>
 </table>
 
@@ -224,4 +237,5 @@ grunt.initConfig({
 
 ## Release History
 
+- 21/10/2013 0.1.1 | Add namespace support
 - 21/10/2013 0.1.0 | Intial release

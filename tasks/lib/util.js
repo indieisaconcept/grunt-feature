@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 
         collection = !_.isArray(collection) ? [collection] : collection;
         src = util.merge(collection);
-        namespace = util.register(src);
+        namespace = util.register(src, options);
 
         if (processor) {
 

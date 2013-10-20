@@ -93,6 +93,9 @@ module.exports = function(grunt) {
 
                 options: {
 
+                    namespace: 'ft',
+                    delimiter: '~',
+
                     template: {
                         custom: 'templates/custom.hbs'
                     },
