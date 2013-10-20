@@ -6,14 +6,103 @@
  * Licensed under the MIT license.
  */
 
+var path = require('path'),
+    merge = require('deepmerge'),
+    Handlebars = require('handlebars');
+
+// HELPERS
+// ------------------------------
+
+Handlebars.registerHelper('string', function (value) {
+    return value.toString();
+});
+
+Handlebars.registerHelper('json', function(data) {
+    return JSON.stringify(data, undefined, 2);
+});
+
 module.exports = function(grunt) {
 
     'use strict';
 
     var util = {},
-        _ = grunt.util._;
+        _ = grunt.util._,
+        templates = {};
 
-    util.merge = function merge () {
+    // TEMPLATES
+    // ------------------------------
+
+    util.template = function (/* String */ filepath, /* Object */ cache) {
+
+        var name = path.basename(filepath, '.hbs'),
+            source = grunt.file.read(filepath),
+            compiled = Handlebars.compile(source);
+
+        if (cache && !cache[name]) {
+            cache[name] = compiled;
+        }
+
+        return compiled;
+
+    };
+
+    grunt.file.expand('templates/**/*.hbs').forEach(function (/* String */ template) {
+        util.template(template, templates);
+    });
+
+    util.generate = function (/* Array */ collection, /* String */ template, /* Object */ options) {
+
+        var processor = templates[template] || util.template(template),
+            namespace,
+            src;
+
+        collection = !_.isArray(collection) ? [collection] : collection;
+        src = util.merge(collection);
+        namespace = util.register(src);
+
+        if (processor) {
+
+            collection = processor({
+                option: options || {},
+                src: src,
+                namespace: namespace
+            });
+
+        }
+
+        return collection;
+
+    };
+
+    util.debug = function debug (/* Object */ collection, /* String */ label) {
+
+        if (label) {
+            grunt.verbose.subhead(label);
+        }
+
+        collection.forEach(function (/* Object */ item, /* Number */ index) {
+            grunt.verbose.writeflags({
+                data: item
+            }, index + 1);
+        });
+
+        grunt.verbose.writeln('');
+
+    };
+
+    util.merge = function (/* Array */ collection) {
+
+        collection = !_.isArray(collection) ? [collection] : collection;
+
+        var result = {};
+
+        collection.forEach(function (/* Object */ item) {
+
+            result = merge(result, item);
+
+        });
+
+        return result;
 
     };
 
@@ -34,13 +123,13 @@ module.exports = function(grunt) {
 
             if (_.isObject(current)) {
 
-                meta = ('active' in current || 'description' in current);
+                meta = ('value' in current || 'description' in current);
 
                 if (meta) {
 
                     processed.push({
                         name: registered,
-                        active: current.active,
+                        value: current.value,
                         description: current.description || null
                     });
 
@@ -61,7 +150,7 @@ module.exports = function(grunt) {
 
                 processed.push({
                     name: registered,
-                    active: current,
+                    value: current,
                     description: null
                 });
 

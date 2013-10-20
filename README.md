@@ -1,6 +1,6 @@
-# grunt-feature-toggle [![build status](https://secure.travis-ci.org/indieisaconcept/grunt-feature-toggle.png)](http://travis-ci.org/indieisaconcept/grunt-feature-toggle)
+# grunt-feature [![build status](https://secure.travis-ci.org/indieisaconcept/grunt-feature.png)](http://travis-ci.org/indieisaconcept/grunt-feature)
 
-> A grunt task which can be used to generate feature toggle configuration files to support code being released early and often.
+> A grunt task which can be used to generate feature configuration files to support code being released early and often and to synchronise features between JavaScript & CSS.
 
 ## Getting Started
 _If you haven't used [grunt][] before, be sure to check out the [Getting Started][] guide._
@@ -8,13 +8,13 @@ _If you haven't used [grunt][] before, be sure to check out the [Getting Started
 From the same directory as your project's [Gruntfile][Getting Started] and [package.json][], install this plugin with the following command:
 
 ```bash
-npm install grunt-feature-toggle --save-dev
+npm install grunt-feature --save-dev
 ```
 
 Once that's done, add this line to your project's Gruntfile:
 
 ```js
-grunt.loadNpmTasks('grunt-feature-toggle');
+grunt.loadNpmTasks('grunt-feature');
 ```
 
 If the plugin has been installed correctly, running `grunt --help` at the command line should list the newly-installed plugin's task or tasks. In addition, the plugin should be listed in package.json as a `devDependency`, which ensures that it will be installed whenever the `npm install` command is run.
@@ -25,7 +25,7 @@ If the plugin has been installed correctly, running `grunt --help` at the comman
 
 ## The "feature" task
 
-```grunt-feature-toggle``` will generate a configuration file which can be consumed by other tasks. 
+```grunt-feature``` will generate a configuration file which can be consumed by other tasks.
 
 For example if you are using require.js with has.js, The task can be used to control which features are to be included as part of an r.js optimizer build.
 
@@ -35,11 +35,11 @@ The real power is when you combine the two. If you no-longer need a feature, or 
 
 ### Defining a feature
 
-Features are managed via `json` configuration files which are describe what the feature does and more importantly whether it should be enabled.
+Features are managed via `json` configuration files which are used to describe what a feature does and more importantly whether it should be enabled.
 
 If multiple configuration files are passed, these are deeply merged together with the resulting conguration file a combination of all options, either added or overriden.
 
-When managing multiple web-sites which share a common code base and build process, this provides scope to turn off common features and manage those which are localised. 
+When managing multiple web-sites which share a common code base and build process, this provides scope to turn off common features and manage those which are localised.
 
 When defining features the resulting generated file will be namespaced based upon the source json object processed.
 
@@ -48,32 +48,32 @@ When defining features the resulting generated file will be namespaced based upo
 
 ```
 {
-	"feature-1": true, 
+	"feature-1": true,
 	"feature-2": false,
-	
+
 	"feature-3": {
-	
+
 		"description": "Vehicula Euismod Cras Ornare Fringilla",
 		"active": true
 
 	},
-	
+
 	"feature-4": {
-	
+
 		"a": true,
 		"b": false,
-		
+
 		"c": {
-		
+
 			"description": "Vehicula Euismod Cras Ornare Fringilla",
 			"active": true,
-			
+
 			"children": {
-			
+
 				"a": false
-			
+
 			}
-		
+
 		}
 
 	}
@@ -81,8 +81,6 @@ When defining features the resulting generated file will be namespaced based upo
 }
 
 ```
-
-Note: `description`, `active	` and `children` are reserved words. Should you wish to use them they can be prefixed the value with @. E.g `@description`.
 
 > Defining a feature in feature.json
 
@@ -102,7 +100,7 @@ $feature-4-c-d: false !default
 
 ### Templates
 
-Handlebar templates can be used to control what the output should look like for a generated configuration file. 
+Handlebar templates can be used to control what the output should look like for a generated configuration file.
 
 ```
 {{#features}}
@@ -113,10 +111,10 @@ Handlebar templates can be used to control what the output should look like for 
 
 The default template to use will be automatically determined based upon the destination file extension unless an override is explicitly provided as an option. In addition to this a template path can also be specified should the need arise to define one.
 
-```grunt-feature-toggle``` comes bundled with templates for JavaScript, JSON and SCSS/Less by default.
+```grunt-feature``` comes bundled with templates for JavaScript, JSON and SCSS/Less by default.
 
 ### Overview
-In your project's Gruntfile, add a section named `feature` to the data object passed into 
+In your project's Gruntfile, add a section named `feature` to the data object passed into
 `grunt.initConfig()`.
 
 ```
@@ -125,27 +123,27 @@ grunt.initConfig({
   feature: {
 
     options: {
-    
+
       // global options
-      
+
       toggles: {
       		// some global toggles
       }
-      
+
     },
 
     your_target: {
 
     	options: {
-    	
+
     		// task options,
-    		
+
     		toggles: {
-    			
+
     			// some target toggles
-    			
-    		}	
-    		
+
+    		}
+
     	},
 
 	    files: {

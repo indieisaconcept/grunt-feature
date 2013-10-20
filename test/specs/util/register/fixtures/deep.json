@@ -1,0 +1,25 @@
+{
+    "a": {
+        "b": true
+    },
+    "c": {
+        "d": {
+            "value": true,
+            "description": "This is a feature",
+            "children": {
+                "e": true,
+                "f": {
+                    "value": false
+                },
+                "g": {
+                    "h": false
+                },
+                "i": {
+                    "children": {
+                        "j": true
+                    }
+                }
+            }
+        }
+    }
+}

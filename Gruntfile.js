@@ -24,6 +24,13 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
+        fixtures: {
+            path: [
+                'test/specs/util/register/fixtures/single.json',
+                'test/specs/util/register/fixtures/deep.json'
+            ]
+        },
+
         pkg: grunt.file.readJSON('package.json'),
 
         // RESET
@@ -73,13 +80,31 @@ module.exports = function(grunt) {
 
             options: {
 
-                toggles: {}
+                toggles: {
+                    one: true
+                },
+                test: {
+                    test: true
+                }
 
             },
 
-            scss: {
+            auto: {
+
+                options: {
+
+                    toggles: {
+                        two: true
+                    }
+
+                },
+
                 files: {
-                    'tmp/scss/_config.scss': ['test/fixtures/common.json']
+                    'tmp/_config.scss': '<%=fixtures.path %>',
+                    'tmp/_config.less': '<%=fixtures.path %>',
+                    'tmp/config.json': '<%=fixtures.path %>',
+                    'tmp/config-amd.amd.js': '<%=fixtures.path %>',
+                    'tmp/config-commonjs.commonjs.js': '<%=fixtures.path %>'
                 }
             }
 

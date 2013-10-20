@@ -1,0 +1,13 @@
+[{
+    "name": "a",
+    "value": true,
+    "description": null
+}, {
+    "name": "b",
+    "value": true,
+    "description": null
+}, {
+    "name": "c",
+    "value": false,
+    "description": null
+}]

@@ -1,0 +1,13 @@
+[{
+    "name": "ft_a",
+    "value": true,
+    "description": null
+}, {
+    "name": "ft_b",
+    "value": true,
+    "description": null
+}, {
+    "name": "ft_c",
+    "value": false,
+    "description": null
+}]
