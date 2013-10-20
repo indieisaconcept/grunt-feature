@@ -27,7 +27,7 @@ If the plugin has been installed correctly, running `grunt --help` at the comman
 
 ```grunt-feature``` will generate a configuration file which can be consumed by other tasks.
 
-For example if you are using require.js with has.js, The task can be used to control which features are to be included as part of an r.js optimizer build.
+For example if you are using require.js with pragmas or similar, the task can be used to control which features are to be included as part of an r.js optimizer build.
 
 Equally a configuration file can be generated to introduce feature toggling as part of a CSS pre-processor build.
 
