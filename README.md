@@ -157,3 +157,7 @@ grunt.initConfig({
 
 })
 ```
+
+## Release History
+
+- 21/10/2013 0.1.0 | Intial release
