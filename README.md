@@ -54,7 +54,7 @@ When defining features the resulting generated file will be namespaced based upo
 	"feature-3": {
 
 		"description": "Vehicula Euismod Cras Ornare Fringilla",
-		"active": true
+		"value": true
 
 	},
 
@@ -66,7 +66,7 @@ When defining features the resulting generated file will be namespaced based upo
 		"c": {
 
 			"description": "Vehicula Euismod Cras Ornare Fringilla",
-			"active": true,
+			"value": true,
 
 			"children": {
 

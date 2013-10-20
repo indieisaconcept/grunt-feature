@@ -93,6 +93,10 @@ module.exports = function(grunt) {
 
                 options: {
 
+                    template: {
+                        custom: 'templates/custom.hbs'
+                    },
+
                     toggles: {
                         two: true
                     }
@@ -104,7 +108,8 @@ module.exports = function(grunt) {
                     'tmp/_config.less': '<%=fixtures.path %>',
                     'tmp/config.json': '<%=fixtures.path %>',
                     'tmp/config-amd.amd.js': '<%=fixtures.path %>',
-                    'tmp/config-commonjs.commonjs.js': '<%=fixtures.path %>'
+                    'tmp/config-commonjs.commonjs.js': '<%=fixtures.path %>',
+                    'tmp/config-custom.custom.js': '<%=fixtures.path %>'
                 }
             }
 

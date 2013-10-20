@@ -17,7 +17,8 @@ module.exports = function(grunt) {
     // ==================================
     //
     var features = require('./lib/util')(grunt),
-        common = grunt.config.get('feature.options.toggles') || {}; // common feature toggles
+        common = grunt.config.get('feature.options.toggles') || {}, // common feature toggles
+        _ = grunt.util._;
 
     // ==================================
     // TASK
@@ -37,7 +38,7 @@ module.exports = function(grunt) {
             var config = [].concat(toggles),
                 basename = path.basename(file.dest),
                 extensions = basename.substring(basename.indexOf('.')+1).split('.'),
-                template = options.template || extensions[0];
+                template = options.template && options.template[extensions[0]] || extensions[0];
 
             // Normalize file destination
             // --------------------------

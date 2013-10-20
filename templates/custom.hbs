@@ -1,3 +1,5 @@
-module.exports = { {{#if namespace}} {{#each namespace}}
+// custom template
+
+{{#if namespace}}{ {{#each namespace}}
     "{{this.name}}": {{string this.value}}, {{#if this.description}}// {{this.description}} {{/if}}{{/each}}
-{{/if}} };
+} {{/if}}
