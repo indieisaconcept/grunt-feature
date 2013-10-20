@@ -45,8 +45,7 @@ When defining features the resulting generated file will be namespaced based upo
 
 #### feature.json
 
-
-```
+```js
 {
 	"feature-1": true,
 	"feature-2": false,
@@ -97,7 +96,6 @@ $feature-4-c-d: false !default
 
 ```
 
-
 ### Templates
 
 Handlebar templates can be used to control what the output should look like for a generated configuration file.
@@ -109,15 +107,81 @@ Handlebar templates can be used to control what the output should look like for 
 ```
 > SCSS template example
 
-The default template to use will be automatically determined based upon the destination file extension unless an override is explicitly provided as an option. In addition to this a template path can also be specified should the need arise to define one.
+The default template to use will be automatically determined based upon the destination file extension unless an override is explicitly provided as an option in the destinaton filename. In addition to this a custom named template path can also be specified should the need arise to define one.
 
-```grunt-feature``` comes bundled with templates for JavaScript, JSON and SCSS/Less by default.
+```grunt-feature``` comes bundled with templates for JavaScript ( AMD & CommonJS ), JSON and SCSS/Less by default.
+
+```js
+your_target: {
+
+    options: {
+
+        template: {
+            custom: 'templates/custom.hbs'
+        },
+
+        toggles: {
+            two: true
+        }
+
+    },
+
+    files: {
+        'tmp/_config.scss': '<%=fixtures.path %>',                  // use scss template
+        'tmp/_config.less': '<%=fixtures.path %>',                  // use less template
+        'tmp/config.json': '<%=fixtures.path %>',                   // use json template
+        'tmp/config-amd.amd.js': '<%=fixtures.path %>',             // use amd template
+        'tmp/config-commonjs.commonjs.js': '<%=fixtures.path %>',   // use commonjs template
+        'tmp/config-custom.custom.js': '<%=fixtures.path %>'        // use custom template found in options.template.custom
+    }
+}
+```
+> Specifying templates
+
+Within a template the following data can be acessed.
+
+<table>
+  <tr>
+    <th>Data</th>
+	<th>Description</th>
+  </tr><tr>
+    <td>src</td>
+    <td>Deeply merged config object</td>
+  </tr><tr>
+    <td>namespace</td>
+    <td>Flattened namspaced version of config</td>
+  </tr>><tr>
+    <td>options</td>
+    <td>Task options</td>
+  </tr>
+</table>
+
+#### helpers
+
+The following additional helpers are made available to templates.
+
+<table>
+  <tr>
+    <th>Helper</th>
+	<th>Description</th>
+	<th>Use</th>
+  </tr><tr>
+    <td>string</td>
+    <td>Performs a toString() on value</td>
+	<th>{{string this.value}}</th>    
+  </tr><tr>
+    <td>json</td>
+    <td>Convert result to JSON via JSON.stringify()</td>
+	<th>{{json this.value}}</th>    
+  </tr>>
+</table>
+
 
 ### Overview
 In your project's Gruntfile, add a section named `feature` to the data object passed into
 `grunt.initConfig()`.
 
-```
+```js
 grunt.initConfig({
 
   feature: {
@@ -147,7 +211,7 @@ grunt.initConfig({
     	},
 
 	    files: {
-	        'some/path/to/config.scss': ['framework/config.json', 'site/config.json']
+	        'some/path/to/_config.scss': ['framework/config.json', 'site/config.json']
 			'some/path/to/config.json': ['framework/config.json', 'site/config.json']
 	    }
 
