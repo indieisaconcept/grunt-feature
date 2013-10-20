@@ -14,7 +14,7 @@ npm install grunt-feature --save-dev
 Once that's done, add this line to your project's Gruntfile:
 
 ```js
-grunt.loadNpmTasks('grunt-feature'); 
+grunt.loadNpmTasks('grunt-feature');
 ```
 
 If the plugin has been installed correctly, running `grunt --help` at the command line should list the newly-installed plugin's task or tasks. In addition, the plugin should be listed in package.json as a `devDependency`, which ensures that it will be installed whenever the `npm install` command is run.
@@ -103,9 +103,9 @@ $feature-4-c-d: false !default
 Handlebar templates can be used to control what the output should look like for a generated configuration file.
 
 ```
-{{#features}}
-	${{name}}: {{value}} !default; //{{description}}
-{{/features}
+{{#each features}}
+	${{this.name}}: {{string this.value}} !default; //{{this.description}}
+{{/each}
 ```
 > SCSS template example
 
