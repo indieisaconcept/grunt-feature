@@ -260,6 +260,6 @@ grunt.initConfig({
 
 ## Release History
 
-- 26/10/2013 0.1.2 | Added basic glob-like support for file dest
-- 21/10/2013 0.1.1 | Add namespace support
+- 26/10/2013 0.2.0 | Added basic glob-like support for file dest and tweaked templates
+- 21/10/2013 0.1.1 | Fixed namespace support
 - 21/10/2013 0.1.0 | Intial release
