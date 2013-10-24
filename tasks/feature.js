@@ -36,14 +36,15 @@ module.exports = function(grunt) {
         this.files.forEach(function(file) {
 
             var config = [].concat(toggles),
-                basename = path.basename(file.dest),
+                dest = file.orig.dest,
+                basename = path.basename(dest),
                 extensions = basename.substring(basename.indexOf('.')+1).split('.'),
                 template = options.template && options.template[extensions[0]] || extensions[0];
 
             // Normalize file destination
             // --------------------------
 
-            file.dest = extensions.length > 1 ? file.dest.replace(basename, basename.replace('.' + extensions[0] , '')) : file.dest;
+            dest = extensions.length > 1 ? dest.replace(basename, basename.replace('.' + extensions[0] , '')) : dest;
 
             file.src.forEach(function(filepath) {
 
@@ -60,12 +61,36 @@ module.exports = function(grunt) {
 
             });
 
-            // Merge and create config
-            // -----------------------
+            // Merge and create config(s)
+            // --------------------------
 
-            config = features.generate(config, template, options);
-            grunt.file.write(file.dest, config);
-            grunt.log.ok('Feature config "' + file.dest + '" successfully created.');
+            config = features.generate(config, options);
+
+            // Process templates
+            // --------------------------
+
+            template
+                .replace(/([{}])/g, '')
+                .split(',')
+                .forEach(function (tmp) {
+
+                    var out = dest.replace(template, tmp),
+                        features = config(tmp);
+
+                    // Normalize destination
+                    // --------------------------
+
+                    out = features.extension ? out.replace('.' + tmp, '.' + features.extension) : out;
+                    out = grunt.template.process(out.replace('!%', '%'), {
+                        data: {
+                            template: tmp
+                        }
+                    });
+
+                    grunt.file.write(out, features.content);
+                    grunt.log.ok('Feature config "' + out + '" successfully created.');
+
+                });
 
         });
 

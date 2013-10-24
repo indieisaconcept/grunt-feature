@@ -97,7 +97,7 @@ module.exports = function(grunt) {
                     delimiter: '~',
 
                     template: {
-                        custom: 'templates/custom.hbs'
+                        custom: 'templates/custom.js.hbs'
                     },
 
                     toggles: {
@@ -112,7 +112,8 @@ module.exports = function(grunt) {
                     'tmp/config.json': '<%=fixtures.path %>',
                     'tmp/config-amd.amd.js': '<%=fixtures.path %>',
                     'tmp/config-commonjs.commonjs.js': '<%=fixtures.path %>',
-                    'tmp/config-custom.custom.js': '<%=fixtures.path %>'
+                    'tmp/config-custom.custom.js': '<%=fixtures.path %>',
+                    'tmp/config-glob-<!%= template %>.{scss,less,json,amd,commonjs}': '<%=fixtures.path %>'
                 }
             }
 

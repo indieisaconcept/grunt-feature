@@ -122,6 +122,28 @@ Handlebar templates can be used to control what the output should look like for 
 
 The default template to use will be automatically determined based upon the destination file extension unless an override is explicitly provided as an option in the destinaton filename. In addition to this a custom named template path can also be specified should the need arise to define one.
 
+When specifying a template the destination extension is used for the generated file, however this can be overriden using the following.
+
+#### Filename
+
+`{name}.{extension}.hbs => `mytemplate.scss.hbs`
+
+#### Grunt Config
+
+```js
+
+file: {
+    'some/path/to/config.{json,scss,less,commonjs}': ['framework/config.json', 'site/config.json']
+}
+
+```
+
+When you have templates which may generate the same file type and you want to use the above format use a `grunt` template to add the template name to the template if needed.
+
+Note grunt by default will will subsitute this template during processing. To defer this so that `grunt-feature` can pass values use the following format. Note the use of `!` this prevents grunt from processing the template.
+
+`<%=! template %>`
+
 ```grunt-feature``` comes bundled with templates for JavaScript ( AMD & CommonJS ), JSON and SCSS/Less by default.
 
 ```js
@@ -146,6 +168,7 @@ your_target: {
         'tmp/config-amd.amd.js': '<%=fixtures.path %>',             // use amd template
         'tmp/config-commonjs.commonjs.js': '<%=fixtures.path %>',   // use commonjs template
         'tmp/config-custom.custom.js': '<%=fixtures.path %>'        // use custom template found in options.template.custom
+        'tmp/config-glob-{%= template %}.{scss,less,json,amd,commonjs}': '<%=fixtures.path %> // Rolls up the above into a single configuration'
     }
 }
 ```
@@ -237,5 +260,6 @@ grunt.initConfig({
 
 ## Release History
 
+- 26/10/2013 0.1.2 | Added basic glob-like support for file dest
 - 21/10/2013 0.1.1 | Add namespace support
 - 21/10/2013 0.1.0 | Intial release

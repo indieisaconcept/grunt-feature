@@ -27,50 +27,78 @@ module.exports = function(grunt) {
 
     var util = {},
         _ = grunt.util._,
-        templates = {};
+        cache = {};
 
     // TEMPLATES
     // ------------------------------
 
-    util.template = function (/* String */ filepath, /* Object */ cache) {
+    util.template = function (/* String */ filepath) {
 
         var name = path.basename(filepath, '.hbs'),
-            source = grunt.file.read(filepath),
-            compiled = Handlebars.compile(source);
+            extension,
+            source,
+            compiled;
+
+        // Normalize name
+        // --------------------
+
+        name = name.split('.');
+        extension = name[1];
+        name = name[0];
+
+        // Pre-compile if needed
+        // ---------------------
 
         if (cache && !cache[name]) {
-            cache[name] = compiled;
+
+            source = grunt.file.read(filepath);
+            compiled = Handlebars.compile(source);
+
+            cache[name] = {
+                compiled: compiled,
+                extension: extension
+            };
         }
 
-        return compiled;
+        return cache[name];
 
     };
 
-    grunt.file.expand('templates/**/*.hbs').forEach(function (/* String */ template) {
-        util.template(template, templates);
+    // PRE-CACHE
+    // ------------------------------
+
+    grunt.file.expand('templates/default/*.hbs').forEach(function (/* String */ template) {
+        util.template(template);
     });
 
-    util.generate = function (/* Array */ collection, /* String */ template, /* Object */ options) {
+    util.generate = function (/* Array */ collection, /* Object */ options) {
 
-        var processor = templates[template] || util.template(template),
-            namespace,
+        var namespace,
             src;
 
         collection = !_.isArray(collection) ? [collection] : collection;
         src = util.merge(collection);
         namespace = util.register(src, options);
 
-        if (processor) {
+        // PRE-CACH RESULT
+        // ------------------------------
 
-            collection = processor({
-                option: options || {},
-                src: src,
-                namespace: namespace
-            });
+        collection = {
+            option: options || {},
+            src: src,
+            namespace: namespace
+        };
 
-        }
+        return function (/* String */ template) {
 
-        return collection;
+            template = util.template(template);
+
+            return {
+                extension: template && template.extension,
+                content: template && template.compiled(collection)
+            };
+
+        };
 
     };
 
