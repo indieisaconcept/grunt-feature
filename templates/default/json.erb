@@ -1,4 +1,4 @@
 <% if (namespace) { %>{<% _.each(namespace, function(ns, index) { %>
-    "<%= ns.name %>": <%= ns.value.toString() %><% if (index != namespace.length - 1) { %>,<% } %><% }); %>
+    "<%= ns.name %>": <%= JSON.stringify(ns.value) %><% if (index != namespace.length - 1) { %>,<% } %><% }); %>
 }
 <% } %>

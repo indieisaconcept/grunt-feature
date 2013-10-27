@@ -1,3 +1,3 @@
 define({ {{#if data.namespace}} {{#each data.namespace}}
-    "{{this.name}}": {{string this.value}}, {{#if this.description}}// {{this.description}} {{/if}}{{/each}}{{/if}}
+    "{{this.name}}": {{{string this.value}}}, {{#if this.description}}// {{this.description}} {{/if}}{{/each}}{{/if}}
 });

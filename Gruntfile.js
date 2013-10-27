@@ -15,7 +15,7 @@ var matchdep = require('matchdep'),
 // ------------------------------
 
 Handlebars.registerHelper('string', function (value) {
-    return value.toString();
+    return JSON.stringify(value);
 });
 
 Handlebars.registerHelper('json', function(data) {
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
             },
 
             test: {
-                src: ['test/**/*.js'],
+                src: ['test/specs/util/**/util.{register,merge,generate}.js'],
                 options: {
                     globals: {
                         describe: false,
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
             options: {
 
                 toggles: {
-                    one: true
+                    one: ['one', 'two', 'three'],
                 }
 
             },
@@ -167,6 +167,25 @@ module.exports = function(grunt) {
 
                 files: {
                     'tmp/hbs/_config-<!%= template %>.<%=fixtures.filetypes%>': '<%=fixtures.path %>'
+                }
+
+            },
+
+
+            // GENERATE USING HANDLEBARS
+            // ------------------------------
+
+            html: {
+
+                options: {
+                    toggles: {
+                        one: ['one', 'two', 'three'],
+                        two: '@include navBg'
+                    }
+                },
+
+                files: {
+                    'tmp/index.html': '<%=fixtures.path %>'
                 }
 
             }

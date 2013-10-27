@@ -1,5 +1,5 @@
 module.exports = {
-    "one": true,
+    "one": ["one","two","three"],
     "a-b": true,
     "b": true,
     "c-d": true,

@@ -1,2 +1,2 @@
-<% _.each(namespace, function(ns) { %><%= ns.name %> = <%= ns.value.toString() %> <% if (ns.description) { %> // <%= ns.description %> <% } %>
+<% _.each(namespace, function(ns) { %><%= ns.name %> = <%= JSON.stringify(ns.value) %> <% if (ns.description) { %> // <%= ns.description %> <% } %>
 <% }); %>

@@ -174,7 +174,7 @@ module.exports = function(grunt) {
                 children,
                 meta;
 
-            if (_.isObject(current)) {
+            if (_.isObject(current) && !_.isArray(current)) {
 
                 meta = ('value' in current || 'description' in current);
 
