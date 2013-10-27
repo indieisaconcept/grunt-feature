@@ -1,0 +1,3 @@
+module.exports = {<% if (namespace) { %><% _.each(namespace, function(ns, index) { %>
+    "<%= ns.name %>": <%= ns.value.toString() %><% if (index != namespace.length - 1) { %>,<% } %><% }); %>
+<% } %>};

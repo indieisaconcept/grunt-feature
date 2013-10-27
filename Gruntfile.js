@@ -8,7 +8,19 @@
 
 'use strict';
 
-var matchdep = require('matchdep');
+var matchdep = require('matchdep'),
+    Handlebars = require('handlebars');
+
+// HELPERS
+// ------------------------------
+
+Handlebars.registerHelper('string', function (value) {
+    return value.toString();
+});
+
+Handlebars.registerHelper('json', function(data) {
+    return JSON.stringify(data, undefined, 2);
+});
 
 module.exports = function(grunt) {
 
@@ -80,12 +92,6 @@ module.exports = function(grunt) {
 
             options: {
 
-                toggles: {
-                    one: true
-                },
-                test: {
-                    test: true
-                }
 
             },
 
@@ -97,11 +103,7 @@ module.exports = function(grunt) {
                     delimiter: '~',
 
                     template: {
-                        custom: 'templates/custom.js.hbs'
-                    },
-
-                    toggles: {
-                        two: true
+                        custom: 'templates/custom.js.tmp'
                     }
 
                 },
@@ -109,12 +111,51 @@ module.exports = function(grunt) {
                 files: {
                     'tmp/_config.scss': '<%=fixtures.path %>',
                     'tmp/_config.less': '<%=fixtures.path %>',
+                    'tmp/_config.styl': '<%=fixtures.path %>',
                     'tmp/config.json': '<%=fixtures.path %>',
                     'tmp/config-amd.amd.js': '<%=fixtures.path %>',
-                    'tmp/config-commonjs.commonjs.js': '<%=fixtures.path %>',
+                    'tmp/config-common.common.js': '<%=fixtures.path %>',
                     'tmp/config-custom.custom.js': '<%=fixtures.path %>',
-                    'tmp/config-glob-<!%= template %>.{scss,less,json,amd,commonjs}': '<%=fixtures.path %>'
+                    'tmp/config-glob-<!%= template %>.{scss,less,styl,json,amd,common}': '<%=fixtures.path %>'
                 }
+            },
+
+            // GENERATE USING DEFAULT _ TEMPLATES
+            // ----------------------------------
+
+            underscore: {
+
+                files: {
+                    'tmp/_config-<!%= template %>.{scss,less,json,common,amd,styl}': '<%=fixtures.path %>'
+                }
+
+            },
+
+            // GENERATE USING HANDLEBARS
+            // ------------------------------
+
+            handlebars: {
+
+                options: {
+
+                    engine: function (/* String */ template, /* Object */ data) {
+
+                        var compiled = Handlebars.compile(template);
+
+                        return compiled(data);
+
+                    },
+
+                    template: {
+                        scss: 'test/fixtures/templates/hbs/scss.hbs'
+                    }
+
+                },
+
+                files: {
+                    'tmp/_config-<!%= template %>.{scss}': '<%=fixtures.path %>'
+                }
+
             }
 
         }
@@ -128,8 +169,6 @@ module.exports = function(grunt) {
     // Default task(s).
 
     grunt.loadTasks('tasks');
-
-    grunt.registerTask('test', 'clean feature nodeunit'.split(' '));
-    grunt.registerTask('default', 'jshint test'.split(' '));
+    grunt.registerTask('default', 'clean jshint nodeunit feature'.split(' '));
 
 };

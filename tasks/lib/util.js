@@ -7,37 +7,38 @@
  */
 
 var path = require('path'),
-    merge = require('deepmerge'),
-    Handlebars = require('handlebars');
-
-// HELPERS
-// ------------------------------
-
-Handlebars.registerHelper('string', function (value) {
-    return value.toString();
-});
-
-Handlebars.registerHelper('json', function(data) {
-    return JSON.stringify(data, undefined, 2);
-});
+    merge = require('deepmerge');
 
 module.exports = function(grunt) {
 
     'use strict';
 
-    var util = {},
-        _ = grunt.util._,
+    var _ = grunt.util._,
+
+        defaultTemplates = {
+            path: 'templates/default/',
+            extension: '.tmp'
+        },
+
+        util = {},
         cache = {};
 
     // TEMPLATES
     // ------------------------------
 
-    util.template = function (/* String */ filepath) {
+    util.template = function (/* String */ filepath, /* Object */ options) {
 
-        var name = path.basename(filepath, '.hbs'),
+        options = options || {};
+
+        var name = path.basename(filepath, '.' + filepath.split('.').pop()),
+            notCached = false,
             extension,
-            source,
-            compiled;
+            source;
+
+        // Normalize filepath
+        // --------------------
+
+        filepath = options[name] ? options[name] : filepath;
 
         // Normalize name
         // --------------------
@@ -46,16 +47,19 @@ module.exports = function(grunt) {
         extension = name[1];
         name = name[0];
 
-        // Pre-compile if needed
+        notCached = cache[name] ? notCached : options[name] && !notCached;
+
+        console.log(notCached);
+
+        // Pre-cache if needed
         // ---------------------
 
-        if (cache && !cache[name]) {
+        if (notCached) {
 
             source = grunt.file.read(filepath);
-            compiled = Handlebars.compile(source);
 
             cache[name] = {
-                compiled: compiled,
+                source: source,
                 extension: extension
             };
         }
@@ -67,13 +71,16 @@ module.exports = function(grunt) {
     // PRE-CACHE
     // ------------------------------
 
-    grunt.file.expand('templates/default/*.hbs').forEach(function (/* String */ template) {
+    grunt.file.expand(defaultTemplates.path + '*' + defaultTemplates.extension).forEach(function (/* String */ template) {
         util.template(template);
     });
 
     util.generate = function (/* Array */ collection, /* Object */ options) {
 
-        var namespace,
+        options = options || {};
+
+        var processor = options.engine || grunt.template.process,
+            namespace,
             src;
 
         collection = !_.isArray(collection) ? [collection] : collection;
@@ -91,11 +98,13 @@ module.exports = function(grunt) {
 
         return function (/* String */ template) {
 
-            template = util.template(template);
+            template = util.template(template, options.template);
 
             return {
                 extension: template && template.extension,
-                content: template && template.compiled(collection)
+                content: template && processor(template.source, {
+                    data: collection
+                })
             };
 
         };

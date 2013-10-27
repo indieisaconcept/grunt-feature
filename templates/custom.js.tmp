@@ -1,0 +1,4 @@
+// custom template
+
+<% _.each(namespace, function(ns) { %>$<%= ns.name %>: <%= ns.value.toString() %>; <% if (ns.description) { %> // <%= ns.description %> <% } %>
+<% }); %>

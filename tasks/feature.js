@@ -30,6 +30,8 @@ module.exports = function(grunt) {
             options = this.options(),
             toggles = [common, options.toggles || {}];
 
+        delete options.toggles;
+
         grunt.log.subhead('SUMMARY');
         features.debug(toggles, 'Features');
 
