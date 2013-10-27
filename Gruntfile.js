@@ -1,6 +1,6 @@
 /*
- * grunt-feature-toggle
- * https://github.com/indieisaconcept/grunt-feature-toggle
+ * grunt-feature
+ * https://github.com/indieisaconcept/grunt-feature
  *
  * Copyright (c) 2013 Jonathan Barnett @indieisaconcept
  * Licensed under the MIT license.
@@ -95,6 +95,9 @@ module.exports = function(grunt) {
 
             options: {
 
+                toggles: {
+                    one: true
+                }
 
             },
 
@@ -107,6 +110,10 @@ module.exports = function(grunt) {
 
                     template: {
                         custom: 'templates/custom.js.erb'
+                    },
+
+                    toggles: {
+                        two: true
                     }
 
                 },

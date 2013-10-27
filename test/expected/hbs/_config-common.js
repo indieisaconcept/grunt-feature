@@ -1,4 +1,5 @@
 module.exports = {  
+    "one": true, 
     "a-b": true, 
     "b": true, 
     "c-d": true, // This is a feature 
