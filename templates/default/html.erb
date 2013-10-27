@@ -59,7 +59,13 @@
             <% _.each(namespace, function(ns) { %>
             <tr>
                 <td><span class="label label-default"><%= ns.name %></span></td>
-                <td><%= JSON.stringify(ns.value) %></td>
+                <td>
+                    <% if (_.isBoolean(ns.value)) { %>
+                        <span class="label label-<%= ns.value ? 'success' : 'danger' %>"><%= ns.value ? 'Active' : 'Disabled' %></span>
+                    <% } else { %>
+                        <span class=""><%= JSON.stringify(ns.value) %></span>
+                    <% } %>
+                </td>
                 <td><% if (ns.description) { %><%= ns.description %><% } else { %>n/a<% } %></td>
             </tr>
             <% }); %>
