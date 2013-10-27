@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
         defaultTemplates = {
             path: 'templates/default/',
-            extension: '.tmp'
+            extension: '.erb'
         },
 
         util = {},
@@ -26,30 +26,45 @@ module.exports = function(grunt) {
     // TEMPLATES
     // ------------------------------
 
-    util.template = function (/* String */ filepath, /* Object */ options) {
+    /**
+     * @name util.template
+     * @element textarea
+     * @function
+     *
+     * @description
+     * Pre-cache a known template or lookup existing
+     *
+     *<pre>
+     *   return {
+     *      source: source,
+     *      extension: extension
+     *   }
+     *</pre>
+     *
+     * @param {string} the path to the template or known filetype
+     * @param {object} custom template mapping
+     *
+     */
+
+    util.template = function (/* String */ name, /* Object */ options) {
 
         options = options || {};
 
-        var name = path.basename(filepath, '.' + filepath.split('.').pop()),
-            notCached = false,
-            extension,
+        var filepath  = options[name] ? options[name] : name,
+            extension = filepath.split('.').pop(),
+            notCached = true,
             source;
-
-        // Normalize filepath
-        // --------------------
-
-        filepath = options[name] ? options[name] : filepath;
 
         // Normalize name
         // --------------------
 
+        name = extension && path.basename(filepath, '.' + extension) || filepath;
         name = name.split('.');
+
         extension = name[1];
         name = name[0];
 
-        notCached = cache[name] ? notCached : options[name] && !notCached;
-
-        console.log(notCached);
+        notCached = !cache[name] || options[name] ? notCached : false;
 
         // Pre-cache if needed
         // ---------------------
@@ -62,6 +77,7 @@ module.exports = function(grunt) {
                 source: source,
                 extension: extension
             };
+
         }
 
         return cache[name];
@@ -91,9 +107,9 @@ module.exports = function(grunt) {
         // ------------------------------
 
         collection = {
-            option: options || {},
             src: src,
-            namespace: namespace
+            namespace: namespace,
+            option: options || {}
         };
 
         return function (/* String */ template) {

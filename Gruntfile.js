@@ -40,7 +40,8 @@ module.exports = function(grunt) {
             path: [
                 'test/specs/util/register/fixtures/single.json',
                 'test/specs/util/register/fixtures/deep.json'
-            ]
+            ],
+            filetypes: '{scss,less,styl,json,amd,common}'
         },
 
         pkg: grunt.file.readJSON('package.json'),
@@ -74,7 +75,8 @@ module.exports = function(grunt) {
                         describe: false,
                         it: false,
                         beforeEach: false,
-                        afterEach: false
+                        afterEach: false,
+                        define: false
                     }
                 }
             }
@@ -82,7 +84,8 @@ module.exports = function(grunt) {
         },
 
         nodeunit: {
-            tests: ['test/specs/**/*.js']
+            before: ['test/specs/util/**/util.{register,merge}.js'],
+            after: ['test/specs/util/util.generate.js']
         },
 
         // GENERATE
@@ -103,7 +106,7 @@ module.exports = function(grunt) {
                     delimiter: '~',
 
                     template: {
-                        custom: 'templates/custom.js.tmp'
+                        custom: 'templates/custom.js.erb'
                     }
 
                 },
@@ -116,17 +119,17 @@ module.exports = function(grunt) {
                     'tmp/config-amd.amd.js': '<%=fixtures.path %>',
                     'tmp/config-common.common.js': '<%=fixtures.path %>',
                     'tmp/config-custom.custom.js': '<%=fixtures.path %>',
-                    'tmp/config-glob-<!%= template %>.{scss,less,styl,json,amd,common}': '<%=fixtures.path %>'
+                    'tmp/config-glob-<!%= template %>.<%=fixtures.filetypes%>': '<%=fixtures.path %>'
                 }
             },
 
             // GENERATE USING DEFAULT _ TEMPLATES
             // ----------------------------------
 
-            underscore: {
+            erb: {
 
                 files: {
-                    'tmp/_config-<!%= template %>.{scss,less,json,common,amd,styl}': '<%=fixtures.path %>'
+                    'tmp/erb/_config-<!%= template %>.<%=fixtures.filetypes%>': '<%=fixtures.path %>'
                 }
 
             },
@@ -134,26 +137,29 @@ module.exports = function(grunt) {
             // GENERATE USING HANDLEBARS
             // ------------------------------
 
-            handlebars: {
+            hbs: {
 
                 options: {
 
                     engine: function (/* String */ template, /* Object */ data) {
-
                         var compiled = Handlebars.compile(template);
-
                         return compiled(data);
-
                     },
 
                     template: {
-                        scss: 'test/fixtures/templates/hbs/scss.hbs'
+                        scss    : 'test/fixtures/templates/hbs/scss.hbs',
+                        less    : 'test/fixtures/templates/hbs/less.hbs',
+                        styl    : 'test/fixtures/templates/hbs/styl.hbs',
+                        json    : 'test/fixtures/templates/hbs/json.hbs',
+                        amd     : 'test/fixtures/templates/hbs/amd.js.hbs',
+                        common  : 'test/fixtures/templates/hbs/common.js.hbs',
+                        custom  : 'test/fixtures/templates/hbs/custom.js.hbs'
                     }
 
                 },
 
                 files: {
-                    'tmp/_config-<!%= template %>.{scss}': '<%=fixtures.path %>'
+                    'tmp/hbs/_config-<!%= template %>.<%=fixtures.filetypes%>': '<%=fixtures.path %>'
                 }
 
             }
@@ -169,6 +175,7 @@ module.exports = function(grunt) {
     // Default task(s).
 
     grunt.loadTasks('tasks');
-    grunt.registerTask('default', 'clean jshint nodeunit feature'.split(' '));
+    grunt.registerTask('test', 'clean jshint nodeunit:before feature nodeunit:after'.split(' '));
+    grunt.registerTask('default', 'test');
 
 };

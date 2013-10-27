@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     // ==================================
     // PLUGIN DEFAULTS
     // ==================================
-    //
+
     var features = require('./lib/util')(grunt),
         common = grunt.config.get('feature.options.toggles') || {}, // common feature toggles
         _ = grunt.util._;

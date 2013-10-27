@@ -33,11 +33,11 @@
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-nodeunit": "~0.2.2"
+    "grunt-contrib-nodeunit": "~0.2.2",
+    "handlebars": "~1.0.12"
   },
   "dependencies": {
-    "deepmerge": "~0.2.7",
-    "handlebars": "~1.0.12"
+    "deepmerge": "~0.2.7"
   },
   "peerDependencies": {
     "grunt": "~0.4.0"
@@ -48,9 +48,11 @@
     "sass",
     "css",
     "less",
+    "stylus",
     "amd",
     "commonjs",
     "requirejs",
+    "amd",
     "feature",
     "toggle",
     "switch",
