@@ -109,7 +109,7 @@ module.exports = function(grunt) {
         collection = {
             src: src,
             namespace: namespace,
-            option: options || {}
+            options: options || {}
         };
 
         return function (/* String */ template) {

@@ -111,14 +111,32 @@ The configuration above would generate named features with `ft` as a suffix usin
 
 ### Templates
 
-Handlebar templates can be used to control what the output should look like for a generated configuration file.
+Templates can be used to control the output for a configuration file.
+
+ERB style underscore templates are used by default via `grunt.template.process` however an alternative template engine can be selected by passing through a function via `options.engine`.
+
+*Note as of release **0.3.0** Handlebar support is no-longer provided by default (see below)*
+
+#### options.engine
+
+To override the default template engine should you wish to use something other than underscore templates this is possible using `options.engine`.
+
 
 ```
-{{#each features}}
-	${{this.name}}: {{string this.value}} !default; //{{this.description}}
-{{/each}
+options: {
+
+    engine: function (/* String */ template, /* Object */ data) {
+        var compiled = require('Handlebars').compile(template);
+        return compiled(data);
+    }
+    
+}
+
 ```
-> SCSS template example
+
+> options.engine example
+
+#### Specifying a template
 
 The default template to use will be automatically determined based upon the destination file extension unless an override is explicitly provided as an option in the destinaton filename. In addition to this a custom named template path can also be specified should the need arise to define one.
 
@@ -126,7 +144,7 @@ When specifying a template the destination extension is used for the generated f
 
 #### Filename
 
-`{name}.{extension}.hbs => `mytemplate.scss.hbs`
+`{name}.{extension}.{erb,hbs} => `mytemplate.scss.hbs`
 
 #### Grunt Config
 
@@ -144,7 +162,7 @@ Note grunt by default will will subsitute this template during processing. To de
 
 `<%=! template %>`
 
-```grunt-feature``` comes bundled with templates for JavaScript ( AMD & CommonJS ), JSON and SCSS/Less by default.
+```grunt-feature``` comes bundled with templates for JavaScript ( AMD & CommonJS ), JSON and SCSS/Less/Stylus/Html by default.
 
 ```js
 your_target: {
@@ -186,32 +204,11 @@ Within a template the following data can be acessed.
   </tr><tr>
     <td>namespace</td>
     <td>Flattened namspaced version of config</td>
-  </tr>><tr>
+  </tr><tr>
     <td>options</td>
     <td>Task options</td>
   </tr>
 </table>
-
-#### helpers
-
-The following additional helpers are made available to templates.
-
-<table>
-  <tr>
-    <th>Helper</th>
-	<th>Description</th>
-	<th>Use</th>
-  </tr><tr>
-    <td>string</td>
-    <td>Performs a toString() on value</td>
-	<th>{{string this.value}}</th>
-  </tr><tr>
-    <td>json</td>
-    <td>Convert result to JSON via JSON.stringify()</td>
-	<th>{{json this.value}}</th>
-  </tr>>
-</table>
-
 
 ### Overview
 In your project's Gruntfile, add a section named `feature` to the data object passed into
@@ -260,6 +257,10 @@ grunt.initConfig({
 
 ## Release History
 
+- 26/10/2013 0.3.0
+	- Handlebar templates deprecated, ERB now default via grunt
+	- `options.engine` support added to allow alternative template engines such as handlebars
+	- html template support added for generating config listing.
 - 26/10/2013 0.2.0 | Added basic glob-like support for file dest and tweaked templates
 - 21/10/2013 0.1.1 | Fixed namespace support
 - 21/10/2013 0.1.0 | Intial release
