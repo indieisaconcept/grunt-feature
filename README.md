@@ -158,9 +158,9 @@ file: {
 
 When you have templates which may generate the same file type and you want to use the above format use a `grunt` template to add the template name to the template if needed.
 
-Note grunt by default will will subsitute this template during processing. To defer this so that `grunt-feature` can pass values use the following format. Note the use of `!` this prevents grunt from processing the template.
+Note grunt by default will subsitute this template during processing. To defer this so that `grunt-feature` can pass values use the following format. Note the use of `!` this prevents grunt from processing the template.
 
-`<%=! template %>`
+`<!%= template %>`
 
 ```grunt-feature``` comes bundled with templates for JavaScript ( AMD & CommonJS ), JSON and SCSS/Less/Stylus/Html by default.
 
@@ -186,7 +186,7 @@ your_target: {
         'tmp/config-amd.amd.js': '<%=fixtures.path %>',             // use amd template
         'tmp/config-commonjs.commonjs.js': '<%=fixtures.path %>',   // use commonjs template
         'tmp/config-custom.custom.js': '<%=fixtures.path %>'        // use custom template found in options.template.custom
-        'tmp/config-glob-{%= template %}.{scss,less,json,amd,commonjs}': '<%=fixtures.path %> // Rolls up the above into a single configuration'
+        'tmp/config-glob-<!%= template %>.{scss,less,json,amd,commonjs}': '<%=fixtures.path %> // Rolls up the above into a single configuration'
     }
 }
 ```
