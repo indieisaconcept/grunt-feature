@@ -264,3 +264,7 @@ grunt.initConfig({
 - 26/10/2013 0.2.0 | Added basic glob-like support for file dest and tweaked templates
 - 21/10/2013 0.1.1 | Fixed namespace support
 - 21/10/2013 0.1.0 | Intial release
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/indieisaconcept/grunt-feature/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
