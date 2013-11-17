@@ -1,4 +1,4 @@
-# grunt-feature [![build status](https://secure.travis-ci.org/indieisaconcept/grunt-feature.png)](http://travis-ci.org/indieisaconcept/grunt-feature)
+# grunt-feature [![build status](https://secure.travis-ci.org/indieisaconcept/grunt-feature.png)](http://travis-ci.org/indieisaconcept/grunt-feature) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/indieisaconcept/grunt-feature/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 > A grunt task which can be used to generate feature configuration files to support code being released early and often and to synchronise features between JavaScript & CSS.
 
